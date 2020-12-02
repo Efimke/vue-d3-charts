@@ -251,7 +251,7 @@ const __vue_is_functional_template__ = false;
 
 /* style inject shadow dom */
 
-const __vue_component__ = normalizeComponent({
+const __vue_component__ = /*#__PURE__*/normalizeComponent({
   render: __vue_render__,
   staticRenderFns: __vue_staticRenderFns__
 }, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, createInjector, undefined, undefined);
@@ -698,9 +698,10 @@ class d3barchart extends d3chart {
     }).attr('y', (d, i) => {
       return this.cfg.orientation !== 'horizontal' ? this.cfg.height : this.xScaleInn(this.cfg.values[i % this.cfg.values.length]);
     }).attr('height', 0).attr('width', 0).on('mouseover', (d, i) => {
-      const key = this.cfg.values[i % this.cfg.values.length];
+      const label_key = this.cfg.tooltip.label;
+      const value_key = this.cfg.values[i % this.cfg.values.length];
       this.tooltip.html(() => {
-        return `<div>${key}: ${d[key]}</div>`;
+        return label_key ? `<div>${d[label_key]}</div>` : `<div>${value_key}: ${d[value_key]}</div>`;
       }).classed('active', true);
     }).on('mouseout', () => {
       this.tooltip.classed('active', false);
@@ -772,7 +773,7 @@ const __vue_is_functional_template__$1 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$1 = normalizeComponent({}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, false, undefined, undefined, undefined);
+const __vue_component__$1 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, false, undefined, undefined, undefined);
 
 const d3$2 = {
   select,
@@ -1113,7 +1114,7 @@ const __vue_is_functional_template__$2 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$2 = normalizeComponent({}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined);
+const __vue_component__$2 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined);
 
 const d3$3 = {
   select,
@@ -1399,7 +1400,7 @@ const __vue_is_functional_template__$3 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$3 = normalizeComponent({}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, createInjector, undefined, undefined);
+const __vue_component__$3 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, createInjector, undefined, undefined);
 
 const d3$4 = {
   select,
@@ -1659,7 +1660,7 @@ const __vue_is_functional_template__$4 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$4 = normalizeComponent({}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, createInjector, undefined, undefined);
+const __vue_component__$4 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, createInjector, undefined, undefined);
 
 const d3$5 = {
   select,
@@ -1936,7 +1937,7 @@ const __vue_is_functional_template__$5 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$5 = normalizeComponent({}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, undefined, undefined);
+const __vue_component__$5 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, undefined, undefined);
 
 const d3$6 = {
   select,
@@ -2180,7 +2181,7 @@ const __vue_is_functional_template__$6 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$6 = normalizeComponent({}, __vue_inject_styles__$6, __vue_script__$6, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, undefined, undefined);
+const __vue_component__$6 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$6, __vue_script__$6, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, undefined, undefined);
 
 const d3$7 = {
   select,
@@ -2386,25 +2387,25 @@ class d3sliceschart extends d3chart {
   */
 
 
-  updateElements() {}
-  /*
-          // PATHS
-          this.itemg.selectAll(".chart__slice")
-              .style('opacity', 0)
-              .data(this.pie(this.data), d => d.data[this.cfg.key])
-              .transition(this.transition)
-              .delay((d,i) => i * this.cfg.transition.duration)
-              .attrTween('d', d => {
-                  const i = d3.interpolate(d.startAngle+0.1, d.endAngle);
-                  return t => {
-                      d.endAngle = i(t); 
-                      return this.arc(d)
-                  }
-              })
-              .style("fill", this.cfg.color.default)
-              .style('opacity', 1);
-  */
-
+  updateElements() {
+    /*
+            // PATHS
+            this.itemg.selectAll(".chart__slice")
+                .style('opacity', 0)
+                .data(this.pie(this.data), d => d.data[this.cfg.key])
+                .transition(this.transition)
+                .delay((d,i) => i * this.cfg.transition.duration)
+                .attrTween('d', d => {
+                    const i = d3.interpolate(d.startAngle+0.1, d.endAngle);
+                    return t => {
+                        d.endAngle = i(t); 
+                        return this.arc(d)
+                    }
+                })
+                .style("fill", this.cfg.color.default)
+                .style('opacity', 1);
+    */
+  }
   /**
   * Remove chart's elements without data
   */
@@ -2470,7 +2471,7 @@ const __vue_is_functional_template__$7 = undefined;
 
 /* style inject shadow dom */
 
-const __vue_component__$7 = normalizeComponent({}, __vue_inject_styles__$7, __vue_script__$7, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, createInjector, undefined, undefined);
+const __vue_component__$7 = /*#__PURE__*/normalizeComponent({}, __vue_inject_styles__$7, __vue_script__$7, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, createInjector, undefined, undefined);
 
 /* eslint-disable import/prefer-default-export */
 

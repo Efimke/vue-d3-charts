@@ -221,11 +221,15 @@ class d3barchart extends d3chart {
       .attr('height', 0)
       .attr('width', 0)
       .on('mouseover', (d, i) => {
-        const key = this.cfg.values[i % this.cfg.values.length];
-        this.tooltip.html(() => {
-          return `<div>${key}: ${d[key]}</div>`
-        })
-       .classed('active', true);
+        const label_key = this.cfg.tooltip.label;
+        const value_key = this.cfg.values[i % this.cfg.values.length];
+        this.tooltip
+          .html(() => {
+            return label_key
+              ? `<div>${d[label_key]}</div>`
+              : `<div>${value_key}: ${d[value_key]}</div>`;
+          })
+          .classed('active', true);
       })
       .on('mouseout', () => {
        this.tooltip.classed('active', false)
