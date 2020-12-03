@@ -236,8 +236,9 @@ class d3barchart extends d3chart {
       })
       .on('mousemove', () => {
        this.tooltip
-         .style('left', window.event['pageX'] - 28 + 'px')
-         .style('top', window.event['pageY'] - 40 + 'px')
+         .style('left', window.event.offsetX + 'px')
+         .style('top', window.event.offsetY + 'px')
+         .style('transform', 'translate(-50%, -100%)')
       })
 
   }
